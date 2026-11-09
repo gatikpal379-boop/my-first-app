@@ -1,10 +1,16 @@
 import streamlit as st
 import pandas as pd
+import os
 
 # 1. Page Settings
 st.set_page_config(page_title="AI Fruit Recipe Builder", page_icon="🥝", layout="wide")
 
-# 2. Main App Heading
+# 2. ⚡ PROFESSIONAL METHOD: Read separate CSS file safely
+if os.path.exists("style.css"):
+    with open("style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_html=True)
+
+# 3. Main App Heading
 st.title("🥝 Smart Fruit & Smoothie Recipe Builder")
 st.write("Type in the fruits and ingredients you have at home, and our system will design a perfect, nutrient-filled treat!")
 
@@ -12,7 +18,7 @@ st.write("Type in the fruits and ingredients you have at home, and our system wi
 if "fridge_items" not in st.session_state:
     st.session_state.fridge_items = []
 
-# 3. Main Visual Layout Columns (Fixed with the number 2!)
+# 4. Main Visual Layout Columns
 col1, col2 = st.columns(2)
 
 with col1:
@@ -59,7 +65,7 @@ with col2:
         
         st.markdown("### 🏆 Top Recommended Recipe For You:")
         
-        # --- SAFE INTELLIGENT MATCHING LOGIC USING STREAMLIT BOXES ---
+        # --- SAFE INTELLIGENT MATCHING LOGIC ---
         if any("banana" in n for n in names_list) or any("milk" in n for n in names_list):
             with st.container(border=True):
                 st.markdown("#### ⚡ Option A: The Energizer Smoothie Bowl")
