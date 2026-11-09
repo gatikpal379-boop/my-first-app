@@ -4,7 +4,7 @@ import pandas as pd
 # 1. Page Settings
 st.set_page_config(page_title="AI Fruit Recipe Builder", page_icon="🥝", layout="wide")
 
-# 2. Main App Heading (Using native headers to avoid any errors)
+# 2. Main App Heading
 st.title("🥝 Smart Fruit & Smoothie Recipe Builder")
 st.write("Type in the fruits and ingredients you have at home, and our system will design a perfect, nutrient-filled treat!")
 
@@ -12,8 +12,8 @@ st.write("Type in the fruits and ingredients you have at home, and our system wi
 if "fridge_items" not in st.session_state:
     st.session_state.fridge_items = []
 
-# 3. Main Visual Layout Columns
-col1, col2 = st.columns()
+# 3. Main Visual Layout Columns (Fixed with the number 2!)
+col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("🛒 Add Your Kitchen Ingredients")
