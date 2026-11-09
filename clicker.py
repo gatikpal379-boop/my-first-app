@@ -4,56 +4,47 @@ import pandas as pd
 # 1. Page Settings
 st.set_page_config(page_title="AI Fruit Recipe Builder", page_icon="🥝", layout="wide")
 
-# 2. 🎨 PREMIUM CSS CUSTOM STYLING
-# This injects custom CSS directly into your app to make it look clean and modern!
-st.markdown("""
-    <style>
-        /* Style the main title */
-        h1 {
-            color: #FF6B6B !important;
-            font-family: 'Segoe UI', sans-serif;
-            font-weight: 800 !important;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        /* Make the Add Ingredient button pop and glow */
-        div.stButton > button:first-child {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%) !important;
-            color: white !important;
-            font-weight: bold !important;
-            border: none !important;
-            border-radius: 12px !important;
-            padding: 12px 24px !important;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4) !important;
-            transition: all 0.2s ease-in-out !important;
-        }
-        
-        div.stButton > button:first-child:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6) !important;
-        }
-
-        /* Style the background of our Recipe suggestion cards */
-        .recipe-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-left: 5px solid #4E65FF;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        
-        /* Custom input fields styling */
-        .stTextInput input {
-            border-radius: 10px !important;
-            border: 2px solid rgba(255,255,255,0.1) !important;
-            background-color: rgba(0,0,0,0.2) !important;
-        }
-        
-        .stTextInput input:focus {
-            border-color: #FF6B6B !important;
-        }
-    </style>
-""", unsafe_html=True)
+# 2. 🎨 CLEAN INJECTED CSS CUSTOM STYLING
+css_code = """
+<style>
+    h1 {
+        color: #FF6B6B !important;
+        font-family: 'Segoe UI', sans-serif;
+        font-weight: 800 !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    div.stButton > button:first-child {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%) !important;
+        color: white !important;
+        font-weight: bold !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 12px 24px !important;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4) !important;
+        transition: all 0.2s ease-in-out !important;
+    }
+    div.stButton > button:first-child:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6) !important;
+    }
+    .recipe-card {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 5px solid #4E65FF;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    .stTextInput input {
+        border-radius: 10px !important;
+        border: 2px solid rgba(255,255,255,0.1) !important;
+        background-color: rgba(0,0,0,0.2) !important;
+    }
+    .stTextInput input:focus {
+        border-color: #FF6B6B !important;
+    }
+</style>
+"""
+st.markdown(css_code, unsafe_html=True)
 
 # 3. Main App Heading
 st.title("🥝 Smart Fruit & Smoothie Recipe Builder")
