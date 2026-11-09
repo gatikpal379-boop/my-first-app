@@ -1,100 +1,49 @@
 import streamlit as st
 import pandas as pd
 
-# 1. Clear Page Setup
+# 1. Page Configuration
 st.set_page_config(page_title="AI Ingredient Analyzer Pro", page_icon="🧬", layout="wide")
 
-# 2. 🎨 FIXED DESIGN INJECTION (Applies your background canvas to all boxes!)
+# 2. 🎨 THE PLATINUM GRADIENT CARD (Matches your image exactly)
+# This creates a safe HTML container that will display your pastel colors beautifully
 st.html("""
 <style>
-    /* Force the complete app wrapper container to use your exact picture gradient layout */
-    .stApp, [data-testid="stAppViewContainer"], [data-testid="stCanvas"], .main {
-        background: linear-gradient(135deg, 
-            #A7F3D0 0%, 
-            #FEF3C7 35%, 
-            #FCE7F3 65%, 
-            #E9D5FF 100%) !important;
-        background-attachment: fixed !important;
-        background-color: #FEF3C7 !important;
+    /* Turn off standard padding so our gradient fills the zone cleanly */
+    .block-container {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    /* Your exact pastel background canvas from the image */
+    .aurora-canvas {
+        background: linear-gradient(135deg, #A7F3D0 0%, #FEF3C7 35%, #FCE7F3 65%, #E9D5FF 100%) !important;
+        padding: 30px;
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        margin-bottom: 25px;
     }
 
-    /* Clear default backgrounds on widget blocks to blend with your colors */
-    [data-testid="stVerticalBlock"] > div, 
-    [data-testid="stForm"], 
-    .stElementContainer, 
-    div[data-testid="stNotification"],
-    div[class*="st-emotion-cache"],
-    div[data-testid="stBlock"],
-    div[data-testid="element-container"],
-    .stCustomBlockContainer,
-    div[data-testid="stContainer"] {
-        background-color: transparent !important;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-    }
-
-    /* Draw clear, elegant floating box boundaries for readability */
-    div[data-testid="stMetricWidget"], div[class*="st-emotion-cache-12w0qpk"] {
-        background-color: rgba(255, 255, 255, 0.4) !important;
-        border: 1px solid rgba(255, 255, 255, 0.6) !important;
-        border-radius: 12px !important;
-        padding: 15px !important;
-    }
-
-    /* Force clean, legible text visibility over the light canvas */
-    h1, h2, h3, h4, p, span, label, td, th, div, [data-testid="stWidgetLabel"] p {
+    /* Force text to look dark, sharp, and highly readable */
+    .aurora-canvas h1, .aurora-canvas h3, .aurora-canvas p, .aurora-canvas li {
         color: #1E293B !important;
         font-family: 'Segoe UI', system-ui, sans-serif !important;
         font-weight: 700 !important;
     }
     
-    h1 {
+    .aurora-canvas h1 {
         font-weight: 800 !important;
         color: #0F172A !important;
-        margin-top: 10px !important;
-        margin-bottom: 20px !important;
-    }
-
-    /* Style the secondary action layout buttons cleanly */
-    button[data-testid="stBaseButton-secondary"] {
-        background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%) !important;
-        color: white !important;
-        border-radius: 12px !important;
-        border: none !important;
-        font-weight: bold !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    }
-    
-    button[data-testid="stBaseButton-secondary"] p {
-        color: white !important;
-    }
-
-    /* Input text boxes look */
-    .stTextInput input {
-        background-color: rgba(255, 255, 255, 0.6) !important;
-        color: #1E293B !important;
-        border-radius: 10px !important;
-        border: 1px solid rgba(0,0,0,0.1) !important;
-    }
-    
-    /* Center the database tables smoothly over the auroral gradient sheet */
-    .stDataFrame, [data-testid="stDataFrameData"] {
-        background-color: rgba(255, 255, 255, 0.5) !important;
-        border-radius: 12px !important;
+        margin-bottom: 5px;
     }
 </style>
 """)
 
-# 3. Main Header Display Elements
-st.title("🧬 Advanced Ingredient Nutri-Scanner Pro")
-st.write("Type any ingredient to dynamically extract high-precision nutritional insights.")
-
-# Initialize the backend state database lists correctly
+# Initialize inventory session state
 if "kitchen_inventory" not in st.session_state:
     st.session_state.kitchen_inventory = []
 
-# Core dataset matching parameters
+# High-precision real database metrics
 NUTRI_DATA = {
     "banana": {"calories": 105.2, "protein": 1.3, "carbs": 27.1, "fats": 0.3, "vitamin": "Potassium & B6"},
     "mango": {"calories": 99.4, "protein": 1.4, "carbs": 24.8, "fats": 0.6, "vitamin": "Vitamin C & A"},
@@ -106,16 +55,22 @@ NUTRI_DATA = {
     "salt": {"calories": 0.0, "protein": 0.0, "carbs": 0.0, "fats": 0.0, "vitamin": "Sodium Mineral"}
 }
 
+# --- 🚀 THE MAIN VIEW WINDOW ---
+# We bundle everything inside your custom color canvas box!
+st.markdown('<div class="aurora-canvas">', unsafe_html=True)
+st.markdown("<h1>🧬 Advanced Ingredient Nutri-Scanner Pro</h1>", unsafe_html=True)
+st.markdown("<p>Type any ingredient to dynamically extract high-precision nutritional insights and calculations.</p>", unsafe_html=True)
+
 col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("🛒 Add Kitchen Ingredient")
     
-    # Using clean unique form keys so scanning can work continuously without freezing!
-    name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk", key="ing_name_field").strip().lower()
-    qty_input = st.number_input("🔢 Quantity Amount:", min_value=1, max_value=20, value=1, step=1, key="ing_qty_field")
+    # Text input boxes for user inputs
+    name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk", key="name_box").strip().lower()
+    qty_input = st.number_input("🔢 Quantity Amount (Whole Numbers Only):", min_value=1, max_value=20, value=1, step=1, key="qty_box")
     
-    if st.button("⚡ Scan & Analyze Item", use_container_width=True, key="scan_btn_submit"):
+    if st.button("⚡ Scan & Analyze Item", use_container_width=True, key="scan_action"):
         if name_input:
             if name_input in NUTRI_DATA:
                 data = NUTRI_DATA[name_input]
@@ -148,7 +103,7 @@ with col1:
     else:
         df = pd.DataFrame(st.session_state.kitchen_inventory)
         st.dataframe(df, use_container_width=True, hide_index=True)
-        if st.button("🗑️ Reset Inventory Scanner", key="reset_btn_ledger"):
+        if st.button("🗑️ Reset Inventory Scanner", key="reset_action"):
             st.session_state.kitchen_inventory = []
             st.rerun()
 
@@ -186,3 +141,5 @@ with col2:
         else:
             st.write("🌿 **Formulation: Ultra-Lean Cellular Hydra-Mix**")
             st.write("A clean, highly bio-available mix. Layer elements cleanly inside a glassware bowl to keep nutrients separated.")
+
+st.markdown('</div>', unsafe_html=True) # Safe close of HTML box container
