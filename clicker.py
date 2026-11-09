@@ -4,20 +4,19 @@ import pandas as pd
 # 1. Configuration
 st.set_page_config(page_title="AI Ingredient Analyzer Pro", page_icon="🧬", layout="wide")
 
-# 2. 🎨 ULTIMATE CSS ENGINE (Wipes out old dark box properties completely!)
+# 2. 🎨 ULTIMATE FINISHED LAYOUT (Brings the full pastel gradient everywhere!)
 st.html("""
 <style>
-    /* 🟦 Upper Dark Blue Navbar Layer running along the absolute top */
+    /* 🟦 Completely remove the dark color from the upper side navigation area */
     [data-testid="stHeader"] {
-        background: linear-gradient(90deg, #0A192F 0%, #0D47A1 100%) !important;
-        border-bottom: 3px solid #172A45;
-        height: 55px !important;
-        position: fixed !important;
-        z-index: 999999 !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        border-bottom: none !important;
+        box-shadow: none !important;
     }
 
-    /* 🎨 Full Main Screen Layer mirroring your specific pastel gradient upload */
-    .stApp, [data-testid="stAppViewContainer"], [data-testid="stCanvas"] {
+    /* 🎨 Apply your beautiful pastel aurora flow across the entire webpage background area */
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stCanvas"], .main {
         background: linear-gradient(135deg, 
             #F9FBFC 0%, 
             #A7F3D0 20%, 
@@ -27,29 +26,21 @@ st.html("""
         background-attachment: fixed !important;
     }
 
-    /* 📦 Completely strip old default box backgrounds so they catch the gradient colors */
+    /* 📦 Eliminate dark box properties completely so they catch the gradient colors flawlessly */
     [data-testid="stVerticalBlock"] > div, 
     [data-testid="stForm"], 
     .stElementContainer, 
     div[data-testid="stNotification"],
-    div[class*="st-emotion-cache"] {
+    div[class*="st-emotion-cache"],
+    div[data-testid="stBlock"] {
         background-color: transparent !important;
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
     }
 
-    /* Create clear, glass-like layout cards for form elements */
-    div[data-testid="stBlock"] {
-        background: rgba(255, 255, 255, 0.4) !important;
-        border: 1px solid rgba(255, 255, 255, 0.6) !important;
-        border-radius: 16px !important;
-        padding: 20px !important;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04) !important;
-    }
-
-    /* Heavy dark contrast typography layers for text visibility */
-    h1, h2, h3, h4, p, label p, [data-testid="stWidgetLabel"] p, span, div {
+    /* Heavy dark contrast typography layers for full word visibility over your pastel layout */
+    h1, h2, h3, h4, p, label p, [data-testid="stWidgetLabel"] p, span, div, td, th {
         color: #1A202C !important;
         font-family: 'Segoe UI', system-ui, sans-serif !important;
         font-weight: 700 !important;
@@ -57,22 +48,23 @@ st.html("""
     
     h1 {
         font-weight: 800 !important;
-        margin-top: 35px !important;
+        margin-top: 20px !important;
         color: #0A192F !important;
     }
 
-    /* Clean formatting for interactive buttons */
+    /* Clean, professional formatting for interactive buttons */
     button[data-testid="stBaseButton-secondary"] {
         background: linear-gradient(135deg, #2E7D32 0%, #0D47A1 100%) !important;
         color: white !important;
         border-radius: 10px !important;
         border: none !important;
         font-weight: bold !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     }
 
     /* Data table visualization styling layer */
     .stDataFrame, [data-testid="stDataFrameData"] {
-        background-color: rgba(255, 255, 255, 0.7) !important;
+        background-color: rgba(255, 255, 255, 0.6) !important;
         border-radius: 12px !important;
     }
 </style>
