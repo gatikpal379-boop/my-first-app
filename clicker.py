@@ -1,21 +1,13 @@
 import streamlit as st
 import pandas as pd
 
-# 1. Configuration
+# 1. Page Settings
 st.set_page_config(page_title="AI Ingredient Analyzer Pro", page_icon="🧬", layout="wide")
 
-# 2. 🎨 ULTIMATE FINISHED LAYOUT (Brings the full pastel gradient everywhere!)
+# 2. 🎨 FIXED DESIGN INJECTION (Guarantees your light pastel background + clear dark text!)
 st.html("""
 <style>
-    /* 🟦 Completely remove the dark color from the upper side navigation area */
-    [data-testid="stHeader"] {
-        background: transparent !important;
-        background-color: transparent !important;
-        border-bottom: none !important;
-        box-shadow: none !important;
-    }
-
-    /* 🎨 Apply your beautiful pastel aurora flow across the entire webpage background area */
+    /* 🎨 Force the background to ONLY use your pastel gradient image colors */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stCanvas"], .main {
         background: linear-gradient(135deg, 
             #F9FBFC 0%, 
@@ -23,62 +15,70 @@ st.html("""
             #FEF3C7 40%, 
             #FCE7F3 75%, 
             #E9D5FF 100%) !important;
-        background-attachment: fixed !important;
+        background-color: #F9FBFC !important;
     }
 
-    /* 📦 Eliminate dark box properties completely so they catch the gradient colors flawlessly */
-    [data-testid="stVerticalBlock"] > div, 
-    [data-testid="stForm"], 
-    .stElementContainer, 
-    div[data-testid="stNotification"],
-    div[class*="st-emotion-cache"],
-    div[data-testid="stBlock"] {
-        background-color: transparent !important;
+    /* 🟦 Hide the top header bar color completely */
+    [data-testid="stHeader"] {
         background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
+        background-color: transparent !important;
     }
 
-    /* Heavy dark contrast typography layers for full word visibility over your pastel layout */
-    h1, h2, h3, h4, p, label p, [data-testid="stWidgetLabel"] p, span, div, td, th {
-        color: #1A202C !important;
-        font-family: 'Segoe UI', system-ui, sans-serif !important;
+    /* 📦 Clean Transparent Content Box Setup */
+    div[data-testid="stBlock"], .stElementContainer {
+        background: transparent !important;
+        background-color: transparent !important;
+    }
+
+    /* ✍️ FIXED: Force ALL text to be a highly readable Dark Slate color over the pastel colors */
+    h1, h2, h3, h4, p, span, label, td, th, div, [data-testid="stWidgetLabel"] p {
+        color: #1E293B !important;
+        font-family: 'Segoe UI', sans-serif !important;
         font-weight: 700 !important;
     }
     
     h1 {
         font-weight: 800 !important;
-        margin-top: 20px !important;
-        color: #0A192F !important;
+        color: #0F172A !important;
+        margin-top: 15px !important;
     }
 
-    /* Clean, professional formatting for interactive buttons */
+    /* 🟢 Styled Action Button */
     button[data-testid="stBaseButton-secondary"] {
-        background: linear-gradient(135deg, #2E7D32 0%, #0D47A1 100%) !important;
+        background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%) !important;
         color: white !important;
-        border-radius: 10px !important;
+        border-radius: 12px !important;
         border: none !important;
         font-weight: bold !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+    }
+    
+    button[data-testid="stBaseButton-secondary"] p {
+        color: white !important;
     }
 
-    /* Data table visualization styling layer */
-    .stDataFrame, [data-testid="stDataFrameData"] {
-        background-color: rgba(255, 255, 255, 0.6) !important;
+    /* 📊 Input fields and Data tables styling */
+    .stTextInput input {
+        background-color: rgba(255, 255, 255, 0.7) !important;
+        color: #1E293B !important;
+        border-radius: 10px !important;
+        border: 1px solid rgba(0,0,0,0.1) !important;
+    }
+    
+    .stDataFrame {
+        background-color: rgba(255, 255, 255, 0.7) !important;
         border-radius: 12px !important;
     }
 </style>
 """)
 
-# 3. App Title Block
+# 3. Main Interface Layout
 st.title("🧬 Advanced Ingredient Nutri-Scanner Pro")
-st.write("Type any ingredient to dynamically extract high-precision nutritional insights and calculations.")
+st.write("Type any ingredient to dynamically extract high-precision nutritional insights.")
 
-# Initialize inventory session state
 if "kitchen_inventory" not in st.session_state:
     st.session_state.kitchen_inventory = []
 
-# High-precision database metrics
+# High-precision core dataset
 NUTRI_DATA = {
     "banana": {"calories": 105.2, "protein": 1.3, "carbs": 27.1, "fats": 0.3, "vitamin": "Potassium & B6"},
     "mango": {"calories": 99.4, "protein": 1.4, "carbs": 24.8, "fats": 0.6, "vitamin": "Vitamin C & A"},
