@@ -1,15 +1,15 @@
 import streamlit as st
 import pandas as pd
 
-# 1. Clear Page Context Setup
+# 1. Clear Page Setup
 st.set_page_config(page_title="AI Ingredient Analyzer Pro", page_icon="🧬", layout="wide")
 
-# 2. 🎨 ULTIMATE DESIGN INJECTION (Brings your exact image gradient to the screen!)
+# 2. 🎨 FIXED DESIGN INJECTION (Applies your background canvas to all boxes!)
 st.html("""
 <style>
-    /* 🎨 Force the background to follow your exact image color coordinates */
+    /* Force the complete app wrapper container to use your exact picture gradient layout */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stCanvas"], .main {
-        background: linear-gradient(45deg, 
+        background: linear-gradient(135deg, 
             #A7F3D0 0%, 
             #FEF3C7 35%, 
             #FCE7F3 65%, 
@@ -18,13 +18,7 @@ st.html("""
         background-color: #FEF3C7 !important;
     }
 
-    /* 🟦 Completely hide standard platform headers to maximize image space */
-    [data-testid="stHeader"] {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-
-    /* 📦 Completely strip old default box colors to let the gradient shine through */
+    /* Clear default backgrounds on widget blocks to blend with your colors */
     [data-testid="stVerticalBlock"] > div, 
     [data-testid="stForm"], 
     .stElementContainer, 
@@ -32,14 +26,23 @@ st.html("""
     div[class*="st-emotion-cache"],
     div[data-testid="stBlock"],
     div[data-testid="element-container"],
-    .stCustomBlockContainer {
+    .stCustomBlockContainer,
+    div[data-testid="stContainer"] {
         background-color: transparent !important;
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
     }
 
-    /* ✍️ Force clean, crisp dark contrast font settings over your pastel canvas */
+    /* Draw clear, elegant floating box boundaries for readability */
+    div[data-testid="stMetricWidget"], div[class*="st-emotion-cache-12w0qpk"] {
+        background-color: rgba(255, 255, 255, 0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.6) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+    }
+
+    /* Force clean, legible text visibility over the light canvas */
     h1, h2, h3, h4, p, span, label, td, th, div, [data-testid="stWidgetLabel"] p {
         color: #1E293B !important;
         font-family: 'Segoe UI', system-ui, sans-serif !important;
@@ -49,11 +52,11 @@ st.html("""
     h1 {
         font-weight: 800 !important;
         color: #0F172A !important;
-        margin-top: -10px !important;
+        margin-top: 10px !important;
         margin-bottom: 20px !important;
     }
 
-    /* 🟢 Action buttons styling to look integrated */
+    /* Style the secondary action layout buttons cleanly */
     button[data-testid="stBaseButton-secondary"] {
         background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%) !important;
         color: white !important;
@@ -67,7 +70,7 @@ st.html("""
         color: white !important;
     }
 
-    /* 📊 Input text block formatting */
+    /* Input text boxes look */
     .stTextInput input {
         background-color: rgba(255, 255, 255, 0.6) !important;
         color: #1E293B !important;
@@ -75,7 +78,7 @@ st.html("""
         border: 1px solid rgba(0,0,0,0.1) !important;
     }
     
-    /* 📋 Adjust layout structure tables */
+    /* Center the database tables smoothly over the auroral gradient sheet */
     .stDataFrame, [data-testid="stDataFrameData"] {
         background-color: rgba(255, 255, 255, 0.5) !important;
         border-radius: 12px !important;
@@ -83,10 +86,11 @@ st.html("""
 </style>
 """)
 
-# 3. Main Interface Layout
+# 3. Main Header Display Elements
 st.title("🧬 Advanced Ingredient Nutri-Scanner Pro")
 st.write("Type any ingredient to dynamically extract high-precision nutritional insights.")
 
+# Initialize the backend state database lists correctly
 if "kitchen_inventory" not in st.session_state:
     st.session_state.kitchen_inventory = []
 
@@ -106,10 +110,12 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("🛒 Add Kitchen Ingredient")
-    name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk").strip().lower()
-    qty_input = st.number_input("🔢 Quantity Amount:", min_value=1, max_value=20, value=1, step=1)
     
-    if st.button("⚡ Scan & Analyze Item", use_container_width=True):
+    # Using clean unique form keys so scanning can work continuously without freezing!
+    name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk", key="ing_name_field").strip().lower()
+    qty_input = st.number_input("🔢 Quantity Amount:", min_value=1, max_value=20, value=1, step=1, key="ing_qty_field")
+    
+    if st.button("⚡ Scan & Analyze Item", use_container_width=True, key="scan_btn_submit"):
         if name_input:
             if name_input in NUTRI_DATA:
                 data = NUTRI_DATA[name_input]
@@ -122,8 +128,6 @@ with col1:
                     "Fats (g)": round(data["fats"] * qty_input, 2),
                     "Key Vitamin": data["vitamin"]
                 }
-                st.session_state.kitchen_inventory.append(new_item)
-                st.rerun()
             else:
                 new_item = {
                     "Ingredient": name_input.title(),
@@ -134,8 +138,8 @@ with col1:
                     "Fats (g)": round(0.22 * qty_input, 2),
                     "Key Vitamin": "Natural Fibers"
                 }
-                st.session_state.kitchen_inventory.append(new_item)
-                st.rerun()
+            st.session_state.kitchen_inventory.append(new_item)
+            st.rerun()
 
     st.write("---")
     st.subheader("📋 Scanned Inventory Ledger")
@@ -144,7 +148,7 @@ with col1:
     else:
         df = pd.DataFrame(st.session_state.kitchen_inventory)
         st.dataframe(df, use_container_width=True, hide_index=True)
-        if st.button("🗑️ Reset Inventory Scanner"):
+        if st.button("🗑️ Reset Inventory Scanner", key="reset_btn_ledger"):
             st.session_state.kitchen_inventory = []
             st.rerun()
 
