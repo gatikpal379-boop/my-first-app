@@ -4,38 +4,60 @@ import pandas as pd
 # 1. Page Settings
 st.set_page_config(page_title="AI Ingredient Analyzer Pro", page_icon="🧬", layout="wide")
 
-# 2. 🎨 ULTIMATE FULL-PAGE GRADIENT INJECTION
-# This turns the entire website background into your custom flowing canvas!
+# 2. 🎨 ADVANCED DESIGN CODE (Matches your image exactly!)
 st.html("""
 <style>
-    /* Force the entire web app background to follow your exact color path */
+    /* 🟦 Upper side Dark Blue Status Bar */
+    [data-testid="stHeader"] {
+        background-color: #0A192F !important;
+        border-bottom: 3px solid #172A45;
+        height: 60px !important;
+    }
+
+    /* 🎨 Full Page Background matching your uploaded pastel auroral canvas image */
     .stApp, [data-testid="stAppViewContainer"] {
         background: linear-gradient(135deg, 
-            #FFFFFF 0%, 
-            #E8F5E9 25%, 
-            #2E7D32 50%, 
-            #E0F7FA 75%, 
-            #0D47A1 100%) !important;
+            #F9FBFC 0%, 
+            #A7F3D0 20%, 
+            #FEF3C7 40%, 
+            #FCE7F3 75%, 
+            #E9D5FF 100%) !important;
         background-attachment: fixed !important;
     }
 
-    /* Keep all text readable on the changing light/dark background colors */
+    /* 📦 Interactive Custom Styled Boxes styled with the exact same gradient layout */
+    .custom-gradient-box {
+        background: linear-gradient(135deg, 
+            #FFFFFF 0%, 
+            #E6FFFA 30%, 
+            #FFFDF5 60%, 
+            #FFF5F5 100%) !important;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        margin-bottom: 20px;
+    }
+
+    /* Beautiful solid contrast styling for text labels */
     h1, h2, h3, h4, p, label p, [data-testid="stWidgetLabel"] p {
-        color: #1E1E2F !important;
-        font-family: 'Segoe UI', sans-serif !important;
+        color: #2D3748 !important;
+        font-family: 'Segoe UI', system-ui, sans-serif !important;
         font-weight: 700 !important;
     }
     
     h1 {
         font-weight: 800 !important;
-        text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        color: #1A202C !important;
+        margin-top: 20px;
     }
 
-    /* Style data tables cleanly to float over the gradient canvas */
+    /* Style data grid layers to blend perfectly into your pastel palette */
     .stDataFrame {
-        background-color: rgba(255, 255, 255, 0.8) !important;
+        background-color: rgba(255, 255, 255, 0.7) !important;
         border-radius: 12px !important;
-        padding: 5px;
+        padding: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
     }
 </style>
 """)
@@ -48,7 +70,7 @@ st.write("Type any ingredient to dynamically extract high-precision nutritional 
 if "kitchen_inventory" not in st.session_state:
     st.session_state.kitchen_inventory = []
 
-# Real nutritional calculation data matching decimal specifications
+# High-precision real database metrics
 NUTRI_DATA = {
     "banana": {"calories": 105.2, "protein": 1.3, "carbs": 27.1, "fats": 0.3, "vitamin": "Potassium & B6"},
     "mango": {"calories": 99.4, "protein": 1.4, "carbs": 24.8, "fats": 0.6, "vitamin": "Vitamin C & A"},
@@ -63,11 +85,11 @@ NUTRI_DATA = {
 col1, col2 = st.columns(2)
 
 with col1:
+    # Wrap elements inside your customized pastel-styled content box container
+    st.markdown('<div class="custom-gradient-box">', unsafe_html=True)
     st.subheader("🛒 Add Kitchen Ingredient")
     
-    name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk, Cocoa Powder").strip().lower()
-    
-    # FIXED: Back to clean, whole numbers only (no decimal inputs allowed here!)
+    name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk").strip().lower()
     qty_input = st.number_input("🔢 Quantity / Multiplier Amount:", min_value=1, max_value=20, value=1, step=1)
     
     if st.button("⚡ Scan & Analyze Item", use_container_width=True):
@@ -97,6 +119,7 @@ with col1:
                 }
                 st.session_state.kitchen_inventory.append(new_item)
                 st.rerun()
+    st.markdown('</div>', unsafe_html=True)
 
     st.write("---")
     st.subheader("📋 Scanned Inventory Ledger")
@@ -127,21 +150,24 @@ with col2:
         else:
             grade = "🥈 B Balanced Blend"
 
-        # Displaying data floating elegantly right over the full page gradient canvas
-        st.markdown(f"### 📈 Total Combined Diagnostics")
-        st.write(f"⚡ **Total Energy Matrix:** {total_cals} kcal")
-        st.write(f"💪 **Total Protein Array:** {total_protein} grams")
-        st.write(f"🍞 **Total Carbohydrates:** {total_carbs} grams")
-        st.write(f"🥑 **Total Lipids (Fats):** {total_fats} grams")
-        st.write(f"🎯 **Calculated Grade:** {grade}")
+        # Wrap diagnostic printouts inside a corresponding gradient display card container
+        st.markdown(f"""
+            <div class="custom-gradient-box">
+                <h3>📈 Total Combined Diagnostics</h3>
+                <p><b>⚡ Total Energy Matrix:</b> {total_cals} kcal</p>
+                <p><b>💪 Total Protein Array:</b> {total_protein} grams</p>
+                <p><b>🍞 Total Carbohydrates:</b> {total_carbs} grams</p>
+                <p><b>🥑 Total Lipids (Fats):</b> {total_fats} grams</p>
+                <h4>🎯 Calculated Grade: {grade}</h4>
+            </div>
+        """, unsafe_html=True)
 
         st.write("---")
         st.subheader("👨‍🍳 Custom AI Formulation Blueprint")
         
-        # REMOVED: Blocks of solid blue/green banners. Now text displays seamlessly on the gradient page!
         if total_cals > 400.0:
             st.write("🔋 **Formulation: Mass Gainer Blast Bowl**")
-            st.write("This dense layout contains massive clean fuel arrays. Blend completely down with high-speed settings. Serve chilled immediately for optimal muscle absorption recovery.")
+            st.write("This dense layout contains massive clean fuel arrays. Blend completely down with high-speed settings.")
         else:
             st.write("🌿 **Formulation: Ultra-Lean Cellular Hydra-Mix**")
-            st.write("A clean, highly bio-available mix. Layer elements cleanly inside a glassware bowl to keep nutrients separated and structurally intact.")
+            st.write("A clean, highly bio-available mix. Layer elements cleanly inside a glassware bowl to keep nutrients separated.")
