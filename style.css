@@ -1,38 +1,32 @@
-/* Style the main title */
-h1 {
+/* Target the title header inside Streamlit's specific container layout */
+.stHeading h1, [data-testid="stHeading"] h1 {
     color: #FF6B6B !important;
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
     font-weight: 800 !important;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1) !important;
 }
 
-/* Make input labels look clean and professional */
-label p {
+/* Target input element description titles */
+[data-testid="stWidgetLabel"] p, .stTextInput label p {
     color: #FF8E53 !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     font-size: 1.1rem !important;
 }
 
-/* Make the Add Ingredient button pop and glow */
-div.stButton > button:first-child {
+/* Force the Add to Kitchen button to take a beautiful gradient */
+[data-testid="stBaseButton-secondary"] {
     background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%) !important;
     color: white !important;
     font-weight: bold !important;
     border: none !important;
     border-radius: 12px !important;
-    padding: 12px 24px !important;
     box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3) !important;
     transition: all 0.2s ease-in-out !important;
 }
 
-/* Button Hover Animation */
-div.stButton > button:first-child:hover {
+/* Active hover effects */
+[data-testid="stBaseButton-secondary"]:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5) !important;
-}
-
-/* Style input fields */
-.stTextInput input, .stSelectbox div[data-baseweb="select"] {
-    border-radius: 10px !important;
-    border: 2px solid rgba(255, 107, 107, 0.2) !important;
+    color: white !important;
 }
