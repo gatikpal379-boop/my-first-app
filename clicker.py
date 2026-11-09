@@ -1,21 +1,23 @@
 import streamlit as st
 import pandas as pd
 
-# 1. Page Settings
+# 1. Configuration
 st.set_page_config(page_title="AI Ingredient Analyzer Pro", page_icon="🧬", layout="wide")
 
-# 2. 🎨 SAFELY INJECTING THE PALETTE LAYOUT (Matches your image exactly!)
+# 2. 🎨 ULTIMATE CSS ENGINE (Wipes out old dark box properties completely!)
 st.html("""
 <style>
-    /* 🟦 Upper side Dark Blue Status Bar */
+    /* 🟦 Upper Dark Blue Navbar Layer running along the absolute top */
     [data-testid="stHeader"] {
-        background-color: #0A192F !important;
+        background: linear-gradient(90deg, #0A192F 0%, #0D47A1 100%) !important;
         border-bottom: 3px solid #172A45;
-        height: 60px !important;
+        height: 55px !important;
+        position: fixed !important;
+        z-index: 999999 !important;
     }
 
-    /* 🎨 Full Page Background matching your uploaded pastel auroral canvas image */
-    .stApp, [data-testid="stAppViewContainer"] {
+    /* 🎨 Full Main Screen Layer mirroring your specific pastel gradient upload */
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stCanvas"] {
         background: linear-gradient(135deg, 
             #F9FBFC 0%, 
             #A7F3D0 20%, 
@@ -25,44 +27,58 @@ st.html("""
         background-attachment: fixed !important;
     }
 
-    /* 📦 Interactive Custom Styled Boxes styled with the exact same gradient layout */
-    .custom-gradient-box {
-        background: linear-gradient(135deg, 
-            #FFFFFF 0%, 
-            #E6FFFA 30%, 
-            #FFFDF5 60%, 
-            #FFF5F5 100%) !important;
-        padding: 25px;
-        border-radius: 16px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        margin-bottom: 20px;
+    /* 📦 Completely strip old default box backgrounds so they catch the gradient colors */
+    [data-testid="stVerticalBlock"] > div, 
+    [data-testid="stForm"], 
+    .stElementContainer, 
+    div[data-testid="stNotification"],
+    div[class*="st-emotion-cache"] {
+        background-color: transparent !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
 
-    /* Beautiful solid contrast styling for text labels */
-    h1, h2, h3, h4, p, label p, [data-testid="stWidgetLabel"] p {
-        color: #2D3748 !important;
+    /* Create clear, glass-like layout cards for form elements */
+    div[data-testid="stBlock"] {
+        background: rgba(255, 255, 255, 0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.6) !important;
+        border-radius: 16px !important;
+        padding: 20px !important;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04) !important;
+    }
+
+    /* Heavy dark contrast typography layers for text visibility */
+    h1, h2, h3, h4, p, label p, [data-testid="stWidgetLabel"] p, span, div {
+        color: #1A202C !important;
         font-family: 'Segoe UI', system-ui, sans-serif !important;
         font-weight: 700 !important;
     }
     
     h1 {
         font-weight: 800 !important;
-        color: #1A202C !important;
-        margin-top: 20px;
+        margin-top: 35px !important;
+        color: #0A192F !important;
     }
 
-    /* Style data grid layers to blend perfectly into your pastel palette */
-    .stDataFrame {
+    /* Clean formatting for interactive buttons */
+    button[data-testid="stBaseButton-secondary"] {
+        background: linear-gradient(135deg, #2E7D32 0%, #0D47A1 100%) !important;
+        color: white !important;
+        border-radius: 10px !important;
+        border: none !important;
+        font-weight: bold !important;
+    }
+
+    /* Data table visualization styling layer */
+    .stDataFrame, [data-testid="stDataFrameData"] {
         background-color: rgba(255, 255, 255, 0.7) !important;
         border-radius: 12px !important;
-        padding: 6px;
-        border: 1px solid rgba(255, 255, 255, 0.5);
     }
 </style>
 """)
 
-# 3. Main App Heading
+# 3. App Title Block
 st.title("🧬 Advanced Ingredient Nutri-Scanner Pro")
 st.write("Type any ingredient to dynamically extract high-precision nutritional insights and calculations.")
 
@@ -70,7 +86,7 @@ st.write("Type any ingredient to dynamically extract high-precision nutritional 
 if "kitchen_inventory" not in st.session_state:
     st.session_state.kitchen_inventory = []
 
-# High-precision real database metrics
+# High-precision database metrics
 NUTRI_DATA = {
     "banana": {"calories": 105.2, "protein": 1.3, "carbs": 27.1, "fats": 0.3, "vitamin": "Potassium & B6"},
     "mango": {"calories": 99.4, "protein": 1.4, "carbs": 24.8, "fats": 0.6, "vitamin": "Vitamin C & A"},
@@ -85,40 +101,37 @@ NUTRI_DATA = {
 col1, col2 = st.columns(2)
 
 with col1:
-    # 🛒 FIXED: We wrap the input card elements into a safe, native container block to completely avoid the markdown error
-    with st.container(border=True):
-        st.subheader("🛒 Add Kitchen Ingredient")
-        
-        name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk").strip().lower()
-        qty_input = st.number_input("🔢 Quantity / Multiplier Amount:", min_value=1, max_value=20, value=1, step=1)
-        
-        if st.button("⚡ Scan & Analyze Item", use_container_width=True):
-            if name_input:
-                if name_input in NUTRI_DATA:
-                    data = NUTRI_DATA[name_input]
-                    new_item = {
-                        "Ingredient": name_input.title(),
-                        "Quantity": int(qty_input),
-                        "Calories (kcal)": round(data["calories"] * qty_input, 1),
-                        "Protein (g)": round(data["protein"] * qty_input, 2),
-                        "Carbs (g)": round(data["carbs"] * qty_input, 2),
-                        "Fats (g)": round(data["fats"] * qty_input, 2),
-                        "Key Vitamin": data["vitamin"]
-                    }
-                    st.session_state.kitchen_inventory.append(new_item)
-                    st.rerun()
-                else:
-                    new_item = {
-                        "Ingredient": name_input.title(),
-                        "Quantity": int(qty_input),
-                        "Calories (kcal)": round(55.4 * qty_input, 1),
-                        "Protein (g)": round(1.15 * qty_input, 2),
-                        "Carbs (g)": round(10.25 * qty_input, 2),
-                        "Fats (g)": round(0.22 * qty_input, 2),
-                        "Key Vitamin": "Natural Fibers"
-                    }
-                    st.session_state.kitchen_inventory.append(new_item)
-                    st.rerun()
+    st.subheader("🛒 Add Kitchen Ingredient")
+    name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk").strip().lower()
+    qty_input = st.number_input("🔢 Quantity Amount:", min_value=1, max_value=20, value=1, step=1)
+    
+    if st.button("⚡ Scan & Analyze Item", use_container_width=True):
+        if name_input:
+            if name_input in NUTRI_DATA:
+                data = NUTRI_DATA[name_input]
+                new_item = {
+                    "Ingredient": name_input.title(),
+                    "Quantity": int(qty_input),
+                    "Calories (kcal)": round(data["calories"] * qty_input, 1),
+                    "Protein (g)": round(data["protein"] * qty_input, 2),
+                    "Carbs (g)": round(data["carbs"] * qty_input, 2),
+                    "Fats (g)": round(data["fats"] * qty_input, 2),
+                    "Key Vitamin": data["vitamin"]
+                }
+                st.session_state.kitchen_inventory.append(new_item)
+                st.rerun()
+            else:
+                new_item = {
+                    "Ingredient": name_input.title(),
+                    "Quantity": int(qty_input),
+                    "Calories (kcal)": round(55.4 * qty_input, 1),
+                    "Protein (g)": round(1.15 * qty_input, 2),
+                    "Carbs (g)": round(10.25 * qty_input, 2),
+                    "Fats (g)": round(0.22 * qty_input, 2),
+                    "Key Vitamin": "Natural Fibers"
+                }
+                st.session_state.kitchen_inventory.append(new_item)
+                st.rerun()
 
     st.write("---")
     st.subheader("📋 Scanned Inventory Ledger")
@@ -149,14 +162,12 @@ with col2:
         else:
             grade = "🥈 B Balanced Blend"
 
-        # FIXED: Wrap diagnostic printouts using a native safe container that reads your background canvas styles perfectly
-        with st.container(border=True):
-            st.markdown("### 📈 Total Combined Diagnostics")
-            st.write(f"⚡ **Total Energy Matrix:** {total_cals} kcal")
-            st.write(f"💪 **Total Protein Array:** {total_protein} grams")
-            st.write(f"🍞 **Total Carbohydrates:** {total_carbs} grams")
-            st.write(f"🥑 **Total Lipids (Fats):** {total_fats} grams")
-            st.markdown(f"#### 🎯 Calculated Grade: {grade}")
+        st.markdown("### 📈 Total Combined Diagnostics")
+        st.write(f"⚡ **Total Energy Matrix:** {total_cals} kcal")
+        st.write(f"💪 **Total Protein Array:** {total_protein} grams")
+        st.write(f"🍞 **Total Carbohydrates:** {total_carbs} grams")
+        st.write(f"🥑 **Total Lipids (Fats):** {total_fats} grams")
+        st.markdown(f"#### 🎯 Calculated Grade: {grade}")
 
         st.write("---")
         st.subheader("👨‍🍳 Custom AI Formulation Blueprint")
