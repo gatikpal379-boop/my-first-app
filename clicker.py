@@ -1,39 +1,60 @@
 import streamlit as st
+import pandas as pd
+import datetime
 
-st.set_page_config(page_title="My First App", page_icon="🎮")
-st.title("🎮 Super Fast Clicker Game")
+# 1. Page Configuration
+st.set_page_config(page_title="Smart Study Planner", page_icon="📅", layout="wide")
+st.title("📅 My Smart Homework & Study Tracker")
+st.write("Keep track of your school assignments, exams, and daily priorities in one place.")
 
-# Initialize the game scores
-if "score" not in st.session_state:
-    st.session_state.score = 0
-if "high_score" not in st.session_state:
-    st.session_state.high_score = 0
+# 2. Initialize Data Storage (Keeps track of tasks while the app runs)
+if "tasks" not in st.session_state:
+    st.session_state.tasks = []
 
-# Track the highest score achieved this session
-if st.session_state.score > st.session_state.high_score:
-    st.session_state.high_score = st.session_state.score
+# 3. Create Two Columns: Left for adding tasks, Right for viewing them
+col1, col2 = st.columns([1, 2])
 
-# Display the scores side by side
-col1, col2 = st.columns(2)
 with col1:
-    st.metric(label="Your Code Score", value=st.session_state.score)
+    st.subheader("➕ Add New Assignment")
+    
+    # Input fields for the user
+    task_name = st.text_input("Assignment/Task Name:", placeholder="e.g., Math Exercises Page 42")
+    subject = st.selectbox("Subject:", ["Math", "Science", "English", "History", "Coding", "Other"])
+    due_date = st.date_input("Due Date:", datetime.date.today())
+    priority = st.radio("Priority Level:", ["🔴 High", "🟡 Medium", "🟢 Low"])
+    
+    # Button to add the task to our list
+    if st.button("🚀 Save Task", use_container_width=True):
+        if task_name: # Make sure they typed something
+            new_task = {
+                "Task": task_name,
+                "Subject": subject,
+                "Due Date": due_date.strftime("%Y-%m-%d"),
+                "Priority": priority,
+                "Status": "❌ Incomplete"
+            }
+            st.session_state.tasks.append(new_task)
+            st.success(f"Added: {task_name}")
+            st.status("Updating your dashboard...").update(state="complete")
+        else:
+            st.error("Please type a task name first!")
+
 with col2:
-    st.metric(label="🏆 High Score", value=st.session_state.high_score)
+    st.subheader("📋 Your Current Agenda")
+    
+    if len(st.session_state.tasks) == 0:
+        st.info("Nice job! Your schedule is clear. Add a task on the left to get started.")
+    else:
+        # Convert our task list into a beautiful interactive table (DataFrame)
+        df = pd.DataFrame(st.session_state.tasks)
+        st.dataframe(df, use_container_width=True, hide_index=True)
+        
+        # Action Center to mark things as done or clear the list
+        st.write("---")
+        if st.button("🗑️ Clear All Finished Tasks"):
+            st.session_state.tasks = []
+            st.rerun()
 
-# Main action button
-if st.button("⌨️ CLICK HERE TO SCORE POINTS", use_container_width=True):
-    st.session_state.score += 1
-    st.rerun()
-
-# Secret code box
-cheat = st.text_input("🤫 Secret Code Box:")
-if cheat == "speed":
-    st.session_state.score += 5000
-    st.success("💥 Added 5,000 bonus points!")
-
-st.divider()
-
-# Reset Button
-if st.button("🔄 Reset Score"):
-    st.session_state.score = 0
-    st.rerun()
+# 4. Motivation Sidebar
+st.sidebar.subheader("💡 Coding Goal Tracker")
+st.sidebar.write("Your typing skills make managing your schedule incredibly fast. Keep up the great work!")
