@@ -1,8 +1,61 @@
 import streamlit as st
 import pandas as pd
 
-# 1. Page Settings & Beautiful App Theme
+# 1. Page Settings
 st.set_page_config(page_title="AI Fruit Recipe Builder", page_icon="🥝", layout="wide")
+
+# 2. 🎨 PREMIUM CSS CUSTOM STYLING
+# This injects custom CSS directly into your app to make it look clean and modern!
+st.markdown("""
+    <style>
+        /* Style the main title */
+        h1 {
+            color: #FF6B6B !important;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 800 !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* Make the Add Ingredient button pop and glow */
+        div.stButton > button:first-child {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%) !important;
+            color: white !important;
+            font-weight: bold !important;
+            border: none !important;
+            border-radius: 12px !important;
+            padding: 12px 24px !important;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4) !important;
+            transition: all 0.2s ease-in-out !important;
+        }
+        
+        div.stButton > button:first-child:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6) !important;
+        }
+
+        /* Style the background of our Recipe suggestion cards */
+        .recipe-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 5px solid #4E65FF;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        /* Custom input fields styling */
+        .stTextInput input {
+            border-radius: 10px !important;
+            border: 2px solid rgba(255,255,255,0.1) !important;
+            background-color: rgba(0,0,0,0.2) !important;
+        }
+        
+        .stTextInput input:focus {
+            border-color: #FF6B6B !important;
+        }
+    </style>
+""", unsafe_html=True)
+
+# 3. Main App Heading
 st.title("🥝 Smart Fruit & Smoothie Recipe Builder")
 st.write("Type in the fruits and ingredients you have at home, and our system will design a perfect, nutrient-filled treat!")
 
@@ -10,8 +63,8 @@ st.write("Type in the fruits and ingredients you have at home, and our system wi
 if "fridge_items" not in st.session_state:
     st.session_state.fridge_items = []
 
-# 2. Main Visual Layout Columns
-col1, col2 = st.columns([1, 1])
+# 4. Main Visual Layout Columns
+col1, col2 = st.columns()
 
 with col1:
     st.subheader("🛒 Add Your Kitchen Ingredients")
@@ -57,28 +110,38 @@ with col2:
         
         st.markdown("### 🏆 Top Recommended Recipe For You:")
         
-        # --- INTELLIGENT MATCHING LOGIC ---
-        # Look at what ingredients the user typed and match them with recipes!
-        
+        # --- INTELLIGENT MATCHING LOGIC USING STYLED HTML ---
         if any("banana" in n for n in names_list) or any("milk" in n for n in names_list):
-            st.info("⚡ **Option A: The Energizer Smoothie Bowl**")
-            st.write("**How to prepare:** Take your fruits, slice them nicely, and toss them into a blender container. If you have powders (like protein or cocoa), add them right into the liquid pool before blending.")
-            st.write("**Nutrient Value:** Rich in Potassium, Healthy Fibers, and Natural Energizing Carbs. Perfect for active kids!")
+            st.markdown("""
+                <div class="recipe-card">
+                    <h4 style="color:#4E65FF; margin-top:0;">⚡ Option A: The Energizer Smoothie Bowl</h4>
+                    <p><b>How to prepare:</b> Take your fruits, slice them nicely, and toss them into a blender container. If you have powders (like protein or cocoa), add them right into the liquid pool before blending.</p>
+                    <p><b>Nutrient Value:</b> Rich in Potassium, Healthy Fibers, and Natural Energizing Carbs. Perfect for active builders!</p>
+                </div>
+            """, unsafe_html=True)
             
             if any("salt" in n for n in names_list) or any("powder" in n for n in names_list):
-                st.write("💡 *Chef's Tip:* Adding that pinch of salt helps balance out the sweetness of your fresh fruits, making it taste like a professional bakery item!")
+                st.info("💡 Chef's Tip: Adding that pinch of salt helps balance out the sweetness of your fresh fruits, making it taste like a professional bakery item!")
                 
         elif any("mango" in n for n in names_list) or any("orange" in n for n in names_list):
-            st.info("🌴 **Option B: Tropical Vitamin-C Blast**")
-            st.write("**How to prepare:** Dice your tropical fruits into fine small cubes. Layer them neatly inside a transparent glass container so the colors look incredibly bright and stylish.")
-            st.write("**Nutrient Value:** High Vitamin C immune support system and essential minerals.")
+            st.markdown("""
+                <div class="recipe-card" style="border-left-color: #FF8E53;">
+                    <h4 style="color:#FF8E53; margin-top:0;">🌴 Option B: Tropical Vitamin-C Blast</h4>
+                    <p><b>How to prepare:</b> Dice your tropical fruits into fine small cubes. Layer them neatly inside a transparent glass container so the colors look incredibly bright and stylish.</p>
+                    <p><b>Nutrient Value:</b> High Vitamin C immune support system and essential minerals.</p>
+                </div>
+            """, unsafe_html=True)
             
         else:
-            st.info("🥗 **Option C: Custom Gourmet Fruit Salad Infusion**")
-            st.write("**How to prepare:** Since you have a unique mix, chop everything up evenly. Toss them together lightly inside a large mixing bowl.")
-            st.write("**Nutrient Value:** Clean fiber profile, trace antioxidants, and natural fruit hydration matrices.")
+            st.markdown("""
+                <div class="recipe-card" style="border-left-color: #28a745;">
+                    <h4 style="color:#28a745; margin-top:0;">🥗 Option C: Custom Gourmet Fruit Salad Infusion</h4>
+                    <p><b>How to prepare:</b> Since you have a unique mix, chop everything up evenly. Toss them together lightly inside a large mixing bowl.</p>
+                    <p><b>Nutrient Value:</b> Clean fiber profile, trace antioxidants, and natural fruit hydration matrices.</p>
+                </div>
+            """, unsafe_html=True)
 
-        # Beautiful Visual Metric Badges
+        # Dashboard Metrics
         st.write("---")
         st.markdown("### 📊 Aesthetic Dashboard Metrics")
         m1, m2 = st.columns(2)
