@@ -57,7 +57,6 @@ NUTRI_DATA = {
 
 # --- 🚀 THE MAIN VIEW WINDOW ---
 # We bundle everything inside your custom color canvas box!
-st.markdown("<h1>🧬 Advanced Ingredient Nutri-Scanner Pro</h1>", unsafe_html=True)
 st.markdown("<p>Type any ingredient to dynamically extract high-precision nutritional insights and calculations.</p>", unsafe_html=True)
 
 col1, col2 = st.columns(2)
