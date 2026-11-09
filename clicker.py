@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # 1. Page Configuration
-st.set_page_config(page_title="AI Ingredient Analyzer Pro", page_icon="🧬", layout="wide")
+st.set_page_config(page_title="", page_icon="🧬", layout="wide")
 
 # 2. 🎨 THE PLATINUM GRADIENT CARD (Matches your image exactly)
 # This creates a safe HTML container that will display your pastel colors beautifully
@@ -57,7 +57,6 @@ NUTRI_DATA = {
 
 # --- 🚀 THE MAIN VIEW WINDOW ---
 # We bundle everything inside your custom color canvas box!
-st.markdown('<div class="aurora-canvas">', unsafe_html=True)
 st.markdown("<h1>🧬 Advanced Ingredient Nutri-Scanner Pro</h1>", unsafe_html=True)
 st.markdown("<p>Type any ingredient to dynamically extract high-precision nutritional insights and calculations.</p>", unsafe_html=True)
 
