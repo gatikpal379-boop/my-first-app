@@ -4,7 +4,7 @@ import pandas as pd
 # 1. Page Settings
 st.set_page_config(page_title="AI Ingredient Analyzer Pro", page_icon="🧬", layout="wide")
 
-# 2. 🎨 ADVANCED DESIGN CODE (Matches your image exactly!)
+# 2. 🎨 SAFELY INJECTING THE PALETTE LAYOUT (Matches your image exactly!)
 st.html("""
 <style>
     /* 🟦 Upper side Dark Blue Status Bar */
@@ -85,41 +85,40 @@ NUTRI_DATA = {
 col1, col2 = st.columns(2)
 
 with col1:
-    # Wrap elements inside your customized pastel-styled content box container
-    st.markdown('<div class="custom-gradient-box">', unsafe_html=True)
-    st.subheader("🛒 Add Kitchen Ingredient")
-    
-    name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk").strip().lower()
-    qty_input = st.number_input("🔢 Quantity / Multiplier Amount:", min_value=1, max_value=20, value=1, step=1)
-    
-    if st.button("⚡ Scan & Analyze Item", use_container_width=True):
-        if name_input:
-            if name_input in NUTRI_DATA:
-                data = NUTRI_DATA[name_input]
-                new_item = {
-                    "Ingredient": name_input.title(),
-                    "Quantity": int(qty_input),
-                    "Calories (kcal)": round(data["calories"] * qty_input, 1),
-                    "Protein (g)": round(data["protein"] * qty_input, 2),
-                    "Carbs (g)": round(data["carbs"] * qty_input, 2),
-                    "Fats (g)": round(data["fats"] * qty_input, 2),
-                    "Key Vitamin": data["vitamin"]
-                }
-                st.session_state.kitchen_inventory.append(new_item)
-                st.rerun()
-            else:
-                new_item = {
-                    "Ingredient": name_input.title(),
-                    "Quantity": int(qty_input),
-                    "Calories (kcal)": round(55.4 * qty_input, 1),
-                    "Protein (g)": round(1.15 * qty_input, 2),
-                    "Carbs (g)": round(10.25 * qty_input, 2),
-                    "Fats (g)": round(0.22 * qty_input, 2),
-                    "Key Vitamin": "Natural Fibers"
-                }
-                st.session_state.kitchen_inventory.append(new_item)
-                st.rerun()
-    st.markdown('</div>', unsafe_html=True)
+    # 🛒 FIXED: We wrap the input card elements into a safe, native container block to completely avoid the markdown error
+    with st.container(border=True):
+        st.subheader("🛒 Add Kitchen Ingredient")
+        
+        name_input = st.text_input("🍎 Ingredient Name:", placeholder="e.g., Banana, Mango, Milk").strip().lower()
+        qty_input = st.number_input("🔢 Quantity / Multiplier Amount:", min_value=1, max_value=20, value=1, step=1)
+        
+        if st.button("⚡ Scan & Analyze Item", use_container_width=True):
+            if name_input:
+                if name_input in NUTRI_DATA:
+                    data = NUTRI_DATA[name_input]
+                    new_item = {
+                        "Ingredient": name_input.title(),
+                        "Quantity": int(qty_input),
+                        "Calories (kcal)": round(data["calories"] * qty_input, 1),
+                        "Protein (g)": round(data["protein"] * qty_input, 2),
+                        "Carbs (g)": round(data["carbs"] * qty_input, 2),
+                        "Fats (g)": round(data["fats"] * qty_input, 2),
+                        "Key Vitamin": data["vitamin"]
+                    }
+                    st.session_state.kitchen_inventory.append(new_item)
+                    st.rerun()
+                else:
+                    new_item = {
+                        "Ingredient": name_input.title(),
+                        "Quantity": int(qty_input),
+                        "Calories (kcal)": round(55.4 * qty_input, 1),
+                        "Protein (g)": round(1.15 * qty_input, 2),
+                        "Carbs (g)": round(10.25 * qty_input, 2),
+                        "Fats (g)": round(0.22 * qty_input, 2),
+                        "Key Vitamin": "Natural Fibers"
+                    }
+                    st.session_state.kitchen_inventory.append(new_item)
+                    st.rerun()
 
     st.write("---")
     st.subheader("📋 Scanned Inventory Ledger")
@@ -150,17 +149,14 @@ with col2:
         else:
             grade = "🥈 B Balanced Blend"
 
-        # Wrap diagnostic printouts inside a corresponding gradient display card container
-        st.markdown(f"""
-            <div class="custom-gradient-box">
-                <h3>📈 Total Combined Diagnostics</h3>
-                <p><b>⚡ Total Energy Matrix:</b> {total_cals} kcal</p>
-                <p><b>💪 Total Protein Array:</b> {total_protein} grams</p>
-                <p><b>🍞 Total Carbohydrates:</b> {total_carbs} grams</p>
-                <p><b>🥑 Total Lipids (Fats):</b> {total_fats} grams</p>
-                <h4>🎯 Calculated Grade: {grade}</h4>
-            </div>
-        """, unsafe_html=True)
+        # FIXED: Wrap diagnostic printouts using a native safe container that reads your background canvas styles perfectly
+        with st.container(border=True):
+            st.markdown("### 📈 Total Combined Diagnostics")
+            st.write(f"⚡ **Total Energy Matrix:** {total_cals} kcal")
+            st.write(f"💪 **Total Protein Array:** {total_protein} grams")
+            st.write(f"🍞 **Total Carbohydrates:** {total_carbs} grams")
+            st.write(f"🥑 **Total Lipids (Fats):** {total_fats} grams")
+            st.markdown(f"#### 🎯 Calculated Grade: {grade}")
 
         st.write("---")
         st.subheader("👨‍🍳 Custom AI Formulation Blueprint")
